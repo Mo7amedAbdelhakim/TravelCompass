@@ -1,0 +1,6 @@
+@TravelCompass.Server_HostAddress = http://localhost:5147
+
+GET {{TravelCompass.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
