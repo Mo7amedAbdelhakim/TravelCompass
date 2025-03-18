@@ -12,11 +12,14 @@ option.UseSqlServer(builder.Configuration.GetConnectionString("Server")));
 builder.Services.AddIdentity<User, ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddApplicationDependencies();
 // Add services to the container.
-builder.Services.AddCors(options =>
+builder.Services.AddCors(options => 
 {
-    options.AddDefaultPolicy(
-        builder =>
-        builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().AllowAnyOrigin());
+    options.AddPolicy("AllowAny", builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    });
 });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,9 +40,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUi();
 }
 
+app.UseCors("AllowAny");
+
 app.UseRouting();
+
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
