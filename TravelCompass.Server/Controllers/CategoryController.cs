@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TravelCompassApplication.Commands.AddNewCategory;
 using TravelCompassApplication.Queries.GetAllCategory;
+using TravelCompassApplication.Queries.GetCategoryById;
+using TravelCompassLogic.TravelCompassDbContext;
 
 namespace TravelCompass.Server.Controllers
 {
@@ -10,11 +12,12 @@ namespace TravelCompass.Server.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ApplicationDbContext _context;
 
-
-        public CategoryController(IMediator mediator)
+        public CategoryController(IMediator mediator, ApplicationDbContext context)
         {
             _mediator = mediator;
+            _context = context;
         }
         [HttpPost("AddNewCategory")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -25,7 +28,7 @@ namespace TravelCompass.Server.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(result);
+            return Ok();
         }
 
         [HttpGet("GetAllCategory")]
@@ -34,6 +37,22 @@ namespace TravelCompass.Server.Controllers
             var result = await _mediator.Send(new GetAllCategoryQuery());
             if (!result.IsSuccess) { return BadRequest(result); }
             return Ok(result.Value);
+        }
+        [HttpGet("GetCategory")]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(GetCategoryByIdDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCategory(string name)
+        {
+            var result = await _mediator.Send(new GetCategoryByIdQuery { Name = name });
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result.Value);
+            //var subdomain = HttpContext.Items["Subdomain"] as string;
+            //// Fetch data from the database based on the subdomain
+            //var siteData = _context.Categories.Select(x => x.CategoryName).Where(x => x == subDomain).FirstOrDefault();
+
         }
     }
 }

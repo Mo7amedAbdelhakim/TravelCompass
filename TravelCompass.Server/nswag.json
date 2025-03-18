@@ -3,7 +3,7 @@
 	"defaultVariables": null,
 	"documentGenerator": {
 		"aspNetCoreToOpenApi": {
-			"project": "TravelCompass.Server.csproj",
+			"project": "D:\\TravelCompass\\TravelCompass.Server\\TravelCompass.Server.csproj",
 			"msBuildProjectExtensionsPath": null,
 			"configuration": null,
 			"runtime": null,

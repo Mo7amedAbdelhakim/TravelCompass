@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
-option.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+option.UseSqlServer(builder.Configuration.GetConnectionString("Server")));
 builder.Services.AddIdentity<User, ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddApplicationDependencies();
 // Add services to the container.
@@ -21,11 +21,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApiDocument(d =>
-{
-    d.Title = "The Traveller Api";
-    d.DocumentName = "The Traveller";
-});
+builder.Services.AddOpenApiDocument();
 builder.Services.AddSwaggerGen();
 
 
@@ -41,6 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUi();
 }
 
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthorization();

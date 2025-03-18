@@ -12,8 +12,8 @@ using TravelCompassLogic.TravelCompassDbContext;
 namespace TravelCompassLogic.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250308171810_AddDataBase")]
-    partial class AddDataBase
+    [Migration("20250318153051_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

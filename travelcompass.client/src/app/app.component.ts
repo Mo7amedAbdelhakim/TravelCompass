@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { CategoryClient } from './Services/TravelCompassClient';
 
 interface WeatherForecast {
   date: string;
@@ -14,23 +15,22 @@ interface WeatherForecast {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+name:string=""
 
-  constructor(private http: HttpClient) {}
+  constructor(private clinet:CategoryClient) {}
 
   ngOnInit() {
-    this.getForecasts();
+    const host = window.location.hostname;
+const subdomain = host.split('.')[0]; // Extract "site-name" from "site-name.127.0.0.1"
+this.getData(subdomain);
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  getData(subdomain:string){
+
+    this.clinet.getCategory(subdomain).subscribe(data=>{
+      this.name=data.name as string
+      console.log(data.name)
+    })
   }
 
   title = 'travelcompass.client';
