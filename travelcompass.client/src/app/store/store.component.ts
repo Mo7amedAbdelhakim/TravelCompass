@@ -8,19 +8,11 @@ import { CategoryClient } from '../Services/TravelCompassClient';
 })
 export class StoreComponent implements OnInit {
 name:string | undefined;
-  constructor(private clinet:CategoryClient) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getSubDomain();
+
   }
-  getData(subdomain:string){
-    this.clinet.getCategory(subdomain).subscribe(data=>{
-      this.name=data.name
-    })
-  }
-getSubDomain(){
-  const host = window.location.hostname;
-const subdomain = host.split('.')[0]; // Extract "site-name" from "site-name.127.0.0.1"
-console.log(subdomain);
-}
+
+
 }

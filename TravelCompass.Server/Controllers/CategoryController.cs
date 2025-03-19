@@ -26,9 +26,9 @@ namespace TravelCompass.Server.Controllers
             var result = await _mediator.Send(command);
             if (!result.IsSuccess)
             {
-                return BadRequest(result);
+                return BadRequest(result.Error);
             }
-            return Ok();
+            return Ok(result.IsSuccess);
         }
 
         [HttpGet("GetAllCategory")]
@@ -41,17 +41,15 @@ namespace TravelCompass.Server.Controllers
         [HttpGet("GetCategory")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(typeof(GetCategoryByIdDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCategory(string name)
+        public async Task<IActionResult> GetCategory(int Id)
         {
-            var result = await _mediator.Send(new GetCategoryByIdQuery { Name = name });
+            var result = await _mediator.Send(new GetCategoryByIdQuery { Id = Id });
             if (!result.IsSuccess)
             {
                 return BadRequest(result);
             }
             return Ok(result.Value);
-            //var subdomain = HttpContext.Items["Subdomain"] as string;
-            //// Fetch data from the database based on the subdomain
-            //var siteData = _context.Categories.Select(x => x.CategoryName).Where(x => x == subDomain).FirstOrDefault();
+
 
         }
     }
